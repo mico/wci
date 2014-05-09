@@ -1,0 +1,14 @@
+ru:
+  helpers:
+    label:
+      user:
+        password: Пароль
+        password_confirmation: Повторите пароль
+        email_or_phone: Email или телефон
+        remember_me: Запомнить меня
+        cellphone: Телефон
+      agent:
+        company: Название организации
+        represent: Контактное лицо
+
+        

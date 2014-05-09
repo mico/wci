@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1155851784">
+    <data-source source="LOCAL" name="Rails here_and_now: development" uuid="e56c4fc1-41b8-48b7-ae54-02a29a7db7ae">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:mysql://127.0.0.1/hereandnow</jdbc-url>
+      <user-name>root</user-name>
+      <user-password>dfd8dfc5dfc5dfde</user-password>
+      <table-pattern>.*</table-pattern>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+
