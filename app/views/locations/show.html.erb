@@ -1,24 +1,13 @@
 <% lat = @location.data["geometry"]["location"]["lat"]
    lng = @location.data["geometry"]["location"]["lng"]%>
     <script type="text/javascript">
+      // TODO: move js outside
         var map;
 
         function showevents(location_id) {
-            $.ajax({url: '/locations/'+location_id+'/events/'});/*.done(function(data) {
-                $('#events').replace(data);
-            });*/
-
+            $.ajax({url: '/locations/'+location_id+'/events/'});
         }
         function success(position) {
-            //var s = document.querySelector('#status');
-
-            //if (s.className == 'success') {
-                // not sure why we're hitting this twice in FF, I think it's to do with a cached result coming back
-              //  return;
-            //}
-
-            //s.innerHTML = "found you!";
-            //s.className = 'success';
 
             var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             map.setCenter(latlng);
@@ -28,13 +17,6 @@
             });
             marker.setMap(map);
 
-            //var marker = new google.maps.Marker({
-            //    position: latlng,
-            //    map: map,
-            //    title:"You are here! (at least within a "+position.coords.accuracy+" meter radius)"
-            //});
-            //move map
-            //alert(position.coords);
         }
 
         function error(msg) {
@@ -60,17 +42,6 @@
             });
 
             <% end %>
-            /*function toggleBounce() {
-
-                if (marker.getAnimation() != null) {
-                    marker.setAnimation(null);
-                } else {
-                    marker.setAnimation(google.maps.Animation.BOUNCE);
-                }
-            }
-
-            google.maps.event.addListener(marker, 'click', toggleBounce);*/
-
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(success, error);
@@ -85,21 +56,17 @@
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
+        google.maps.event.addDomListener(window, 'page:load', initialize);
 
     </script>
 
-<div style='width: 1400px;'>
-  <div id="map" style='width: 1400px; height: 500px;'></div>
+<div class="col-md-6">
+  <div class="btn-group">
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-resize-full"></span> Развернуть</button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-fullscreen"></span> На весь экран</button>
+  </div>
+  <div id="map" style='height: 500px;'></div>
+
 </div>
 
-<%= @location.data["geometry"]["location"] %>
-<%# image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@location.latitude}%2C#{@location.longitude}" %>
-
-<div id="events">no events</div>
-
-<h3>Nearby locations</h3>
-<ul>
-<%# for location in @locations.nearbys(10) %>
-  <li><%# link_to location.address, location %> (<%#= location.distance.round(2) %> miles)</li>
-<%# end %>
-</ul>
+<div id="events" class="col-md-6">no events</div>

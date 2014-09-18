@@ -108,6 +108,10 @@ ru:
         title: "История для %{model_label} '%{object_label}'"
         menu: "История"
         breadcrumb: "история"
+      import:
+        menu: "Импорт"
+        breadcrumb: "импорт"
+        title: "Импорт"
     form:
       cancel: "Отмена"
       basic_info: "Основное"

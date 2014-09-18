@@ -1,12 +1,26 @@
 HereAndNow::Application.routes.draw do
-  get "event/index"
-  get "event/show"
+  get "icalexport/facebook"
   resources :locations do
     resources :events
   end
 
+  root 'index#index'
+
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
-  # The priority is based upon order of creation: first created -> highest priority.
+
+  #get 'rails_admin/ical/facebook' => 'icalexport#facebook'
+
+  #match "/admin/:model_name/import" => "custom_admin#import" , :as => "import", :via => [:get, :post]
+
+  RailsAdmin::Engine.routes.draw do
+    defaults model_name: 'facebook' do
+      get 'ical' => 'icalexport#facebook'
+    end
+  end
+
+  mount RailsAdminImport::Engine => '/rails_admin_import', :as => 'rails_admin_import'
+
+    # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"

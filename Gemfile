@@ -6,7 +6,7 @@ gem 'rails', '4.0.4'
 #gem 'mysql2'
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+#gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.2'
@@ -44,7 +44,14 @@ gem 'gmaps4rails'
 gem 'underscore-rails'
 
 gem 'mysql2'
+gem 'pg'
+gem 'bootstrap-sass'
+gem 'simple-navigation-bootstrap'
+gem 'icalendar'
 
+# gem "rails_admin_import", :git => "git://github.com/adamwong246/rails_admin_import.git"
+
+# gem 'rubocop', require: false
 # TODO: https://github.com/kristianmandrup/rails-gallery check it!
 # http://demo.radiantcms.org/admin/assets/ cool assets
 

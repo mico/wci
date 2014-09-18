@@ -1,8 +1,13 @@
 <div class="list-group">
-<% @events.each do |event| %>
-    <a href="#" class="list-group-item active">
+  <a href="#" class="list-group-item active">
+    <h4 class="list-group-item-heading">События в городе <%= @location.address %></h4>
+    <!-- <p class="list-group-item-text"></p> -->
+  </a>
+
+  <% @events.each do |event| %>
+    <a href="#" class="list-group-item">
       <h4 class="list-group-item-heading"><%= event.title %> (<%= event.date %>)</h4>
-      <p class="list-group-item-text"><%= event.description %></p>
+      <p class="list-group-item-text"><%= truncate(event.description, length: 180) %></p>
     </a>
 <% end %>
 </div>
