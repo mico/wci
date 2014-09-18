@@ -1,0 +1,190 @@
+<% if @response -%>
+    <% if @response.has_key?(:error) -%>
+    <div class="alert-error alert">
+       <%= @response[:error] %>
+    </div>
+    <% end -%>
+    <% if false and @response.has_key?(:notice) -%>
+    <div class="alert-success alert">
+       <%= @response[:notice] %>
+    </div>
+    <% end -%>
+
+    <% if @response.has_key?(:confirmation) -%>
+        <%= form_tag "", method: :post do %>
+            <%= hidden_field_tag :do_import, true %>
+
+            <div class="well">
+          <div style="float:right" id="checked_info">0 записей выбранно</div>
+          <%= submit_tag "Импорт выбранных", class: "btn btn-info" %>
+          <div></div>
+        </div>
+        <table class='table table-condensed table-striped'>
+          <thead>
+          <tr>
+            <th class='shrink'>
+              <input class='toggle' type='checkbox'>
+            </th>
+            <!-- <th class='header id_field integer_type' rel='tooltip' title=''>Id</th> -->
+            <th class='header started_field date_type' rel='tooltip' title=''>Название</th>
+            <th class='header started_field date_type' rel='tooltip' title=''>Тип</th>
+            <th class='header started_field date_type' rel='tooltip' title=''>Место</th>
+            <th class='header created_at_field datetime_type' rel='tooltip' title=''>Дата</th>
+            <th class='last shrink'></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @response[:confirmation].each do |object| %>
+          <tr class='location_row'>
+            <td>
+              <% contact_words_title = ["contact", " ci ", "контакт", "Контакт", " ки ", "КИ ", "Сontact", "Kontakt"]
+                 contact_words_description = ["contact improvisation", " ci ", "контактная импровизация"," ки ", " КИ "]
+              # TODO: CHECK Description too!!!
+                 contact = !contact_words_title.select { |word| object.title.downcase.include?(word) }.empty?
+                 contact |= !contact_words_description.select { |word| object.description.downcase.include?(word) }.empty?
+              %>
+              <%= check_box_tag "bulk_ids[]", object.ical_uid, contact %>
+              <!-- <input id="bulk_ids_" name="bulk_ids[]" type="checkbox" value="<%= object.ical_uid %>" <%= contact ? "checked" : "" %>/>-->
+            </td>
+            <td class='address_field string_type'><%= link_to object.title, object.url %></td>
+            <td>
+              <%
+              %>
+
+              <%=
+                  selected = nil
+                  selected = EventType.find_by_alias :festival if object.title.downcase.include? "festival"
+                  selected = EventType.find_by_alias :workshop if object.title.downcase.include? "training"
+                  select_tag "event_location_id[#{object.ical_uid}]", options_from_collection_for_select(EventType.all, "alias", "alias", (selected and selected.alias)) %>
+            </td>
+            <td><%= object.to_import_location %></td>
+            <td class='address_field string_type'><%= object.date %></td>
+
+            <td class='last links'>
+              <ul class='inline'></ul>
+            </td>
+           </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <% end %>
+    <% end %>
+
+<% end -%>
+
+<div class="row-fluid">
+  <div class="span6">
+    <table class="table">
+      <tr>
+        <td valign="top">
+          <h2>Standard Fields</h2>
+          <ul>
+            <% @abstract_model.model.import_fields.each do |field| -%>
+              <li><%= field %></li>
+            <% end -%>
+          </ul>
+        </td>        
+        <% if @abstract_model.model.belongs_to_fields.any? -%>
+          <td valign="top">
+            <h3>Belongs To Fields</h3>
+            <ul>
+              <% @abstract_model.model.belongs_to_fields.each do |field| -%>
+                <li><%= field %></li>
+              <% end -%>
+            </ul>
+            <small>These fields map to other items in the database, lookup via attribute selected below.</small>
+          </td>
+        <% end -%>        
+        <% if @abstract_model.model.file_fields.any? -%>
+          <td valign="top">
+            <h3>File Fields</h3>
+            <ul>
+              <% @abstract_model.model.file_fields.each do |field| -%>
+                <li><%= field %></li>
+              <% end -%>
+            </ul>
+            <small>These must be a downloadable URL.</small>
+          </td>
+        <% end -%>          
+        <% if @abstract_model.model.many_fields.any? -%>
+          <td valign="top">
+            <h3>Multiple Fields</h3>
+            <ul>
+              <% @abstract_model.model.many_fields.each do |field| -%>
+                <li><%= field %></li>
+              <% end -%>
+            </ul>
+            <small>These fields map to other columns in the database, lookup via attribute selected below. There may be multiple columns with this header in the spreadsheet.</small>
+          </td>
+        <% end -%>        
+        <% if RailsAdminImport.config(@abstract_model.model).extra_fields.any? -%>
+          <td valign="top">
+            <h3>Extra Fields</h3>
+            <ul>
+              <% RailsAdminImport.config(@abstract_model.model).extra_fields.each do |field| -%>
+                <li><%= field %></li>
+              <% end -%>
+            </ul>
+            <small>Additional application specific fields.</small>
+          </td>
+        <% end -%>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="row-fluid">
+
+  <div class="span4 well" >
+    <%= form_tag rails_admin.import_url(@abstract_model.to_param), :multipart => true do |f| -%>        
+      
+
+      <fieldset>
+        <legend>Download a file from a URL</legend>
+          <%= select_tag(:input_format,  options_for_select(@file_formats_accepted)) %>
+          <%= url_field_tag :url, nil, :class => 'input-block-level' %>
+          <!-- <span class="help-block">
+            <i class="icon icon-warning-sign"></i> 
+            limit file to <%= RailsAdminImport.config.line_item_limit %> line items.
+          </span> -->            
+        <% unless RailsAdminImport.config(@abstract_model.model).update_lookup_field %>
+          <label>Update existing records?</label>
+          <select name="update_lookup">
+            <option value="">Import as new records</option>
+            <% @abstract_model.model.new.attributes.keys.each do |key| -%>
+              <option value="<%= key %>">Update by <%= key %></option>
+            <% end -%>
+          </select>
+        <% end %>
+      </fieldset>
+
+      <% associated_fields = [@abstract_model.model.belongs_to_fields, @abstract_model.model.many_fields].flatten %>
+      
+      <% if associated_fields.any? %>
+        <fieldset>
+          <% associated_fields.each do |field| -%>
+            <legend><%= field %> mapping</legend>
+            <select name="<%= field %>">
+              <% field_meta = @abstract_model.model.model_associations[field] %>
+              <% (field_meta ? field_meta.class_name : field.to_s.classify).constantize.new.attributes.keys.each do |key| -%>
+                <option value="<%= key %>"><%= key %></option>
+              <% end -%>
+            <select>
+          <% end -%>
+        </fieldset>
+      <% end %>
+    <%= submit_tag "Pull", :disable_with => "Pull...", :class => "btn btn-primary" %>
+  <% end -%>
+  
+</div> 
+
+</div>
+<script>
+    var countChecked = function() {
+        $( "#checked_info" ).text( $("input[name='bulk_ids[]']:checked").length + " записей для импорта" );
+    };
+    countChecked();
+
+    $( "input[name='bulk_ids[]']" ).on( "click", countChecked );
+
+</script>
