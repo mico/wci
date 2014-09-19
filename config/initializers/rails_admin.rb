@@ -58,7 +58,7 @@ module RailsAdmin
               if params.has_key?(:do_import)
 
                 params[:event_location_id].each do |uid, event_type|
-                  if params[:bulk_ids].has_key?(uid)
+                  if params[:bulk_ids].include?(uid)
 
                   end
                   ImportedEvent.create(ical_uid: uid)

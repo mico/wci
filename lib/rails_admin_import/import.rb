@@ -134,7 +134,7 @@ module RailsAdminImport
         # for each of the items in the rss file...
         ical.events.each do |entry|
 
-          if ImportedEvent.where(ical_uid: entry.uid).empty?
+          if ImportedEvent.where(ical_uid: entry.uid.to_s).empty?
 
             # Excute the Procs in rss_mapping with the entry from the rss item
             new_attrs = Hash[import_config.ical_mapping.map{ |k, v| [k, v.call(entry)] }]
