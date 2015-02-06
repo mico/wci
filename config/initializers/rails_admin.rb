@@ -59,7 +59,9 @@ module RailsAdmin
 
                 params[:event_location_id].each do |uid, event_type|
                   if params[:bulk_ids].include?(uid)
-
+                    # real import of uid, event_type (e750216441690901@facebook.com, festival/workshop)
+                    # again import from ical?
+                    # Event.create()
                   end
                   ImportedEvent.create(ical_uid: uid)
                 end

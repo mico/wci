@@ -101,6 +101,7 @@ module RailsAdminImport
         if RailsAdminImport.config.logging
           FileUtils.copy(temp_file, "#{Rails.root}/log/import/#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}-#{opts[:type]}-#{opts[:format]}")
           logger = Logger.new("#{Rails.root}/log/import/import.log")
+          logger.level = Logger::DEBUG
         end
 
         if import_config.update_lookup_field
@@ -125,6 +126,7 @@ module RailsAdminImport
 
       def ical_import(temp_file, lookup_field_name, role, current_user)
         # parse returns array of Icalendar
+        #logger.info "#{Time.now.to_s}: ical import"
         ical = Icalendar.parse(File.read(temp_file)).first
 
         results = { :success => [], :error => [], :confirmation => [] }
