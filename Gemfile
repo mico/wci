@@ -45,11 +45,13 @@ gem 'geocoder'
 gem 'gmaps4rails'
 gem 'underscore-rails'
 
-gem 'mysql2'
 gem 'pg'
 gem 'bootstrap-sass'
 gem 'simple-navigation-bootstrap'
 gem 'icalendar'
+gem 'better_errors'
+gem 'haml'
+gem 'haml-rails'
 
 # gem "rails_admin_import", :git => "git://github.com/adamwong246/rails_admin_import.git"
 

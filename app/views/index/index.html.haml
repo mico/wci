@@ -1,0 +1,21 @@
+.page-header
+  %h3 Классы
+  %p Ближайшие события в вашем регионе
+.row{:style => "padding-bottom: 30px; padding-top: 30px;"}
+  - @events.each do |event|
+    .col-lg-4
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title= event.teachers.collect { |teacher| teacher.first_name + ' ' + teacher.last_name}.join(", ")
+        .panel-body
+          %p{:style => "margin-bottom: 2px;"}= event.location.city+ " | " + I18n.localize(event.date, :format => "%d %B %Y")
+          %h2{:style => "margin-top: 0px; padding-top: 0px;"}= event.title
+          %p= truncate(event.description, length: 400)
+          %p
+            %a.btn.btn-primary{:href => "#", :role => "button"} Подробнее »
+- if @festival
+  .jumbotron
+    %h1= @festival.title
+    %p.lead= @festival.description
+    %p
+      %a.btn.btn-lg.btn-success{:href => "#", :role => "button"} Зарегистрироваться
