@@ -1,0 +1,15 @@
+%header.navigation{:role => "banner"}
+  .navigation-wrapper
+    %a.logo{:href => "javascript:void(0)"}
+      %img{:alt => "Logo Image", :src => "https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png"}/
+    %a#js-mobile-menu.navigation-menu-button{:href => "javascript:void(0)"} MENU
+    %nav{:role => "navigation"}
+      %ul#js-navigation-menu.navigation-menu.show
+        != render_navigation renderer: :refills_renderer
+    .navigation-tools
+      .search-bar
+        %form{:role => "search"}
+          %input{:placeholder => "Enter Search", :type => "search"}/
+          %button{:type => "submit"}
+            %img{:alt => "Search Icon", :src => "https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon.png"}/
+      %a.sign-up{:href => "javascript:void(0)"} Sign Up

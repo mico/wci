@@ -7,4 +7,6 @@ class Event < ActiveRecord::Base
   belongs_to :event_type
   belongs_to :location
 
+  mount_uploader :asset, AssetUploader
+  # don't forget those if you use :attr_accessible (delete method and form caching method are provided by Carrierwave and used by RailsAdmin)
 end

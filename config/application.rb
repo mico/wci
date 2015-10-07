@@ -22,6 +22,6 @@ module HereAndNow
     # config.i18n.default_locale = :de
     config.i18n.enforce_available_locales = true
     config.i18n.default_locale = :ru
-
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end

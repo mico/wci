@@ -47,11 +47,20 @@ gem 'underscore-rails'
 
 gem 'pg'
 gem 'bootstrap-sass'
-gem 'simple-navigation-bootstrap'
+gem 'simple-navigation'
 gem 'icalendar'
 gem 'better_errors'
 gem 'haml'
 gem 'haml-rails'
+gem 'bourbon'
+gem 'neat'
+gem 'refills'
+gem 'bitters'
+gem 'carrierwave'
+gem 'carrierwave-processing'
+gem 'carrierwave-serializable'
+gem 'mini_magick'
+gem "codeclimate-test-reporter", group: :test, require: nil
 
 # gem "rails_admin_import", :git => "git://github.com/adamwong246/rails_admin_import.git"
 
@@ -70,3 +79,7 @@ gem 'haml-rails'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+  gem 'byebug'
+end
